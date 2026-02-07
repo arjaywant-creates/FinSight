@@ -26,7 +26,7 @@ public class AnalysisService {
         reader.readNext(); // skip header
 
         while ((row = reader.readNext()) != null) {
-            if (row.length < 3) continue;
+            if (row.length < 4) continue;
 
             String desc = row[1].toLowerCase().trim();
             String amtStr = row[3].trim();
