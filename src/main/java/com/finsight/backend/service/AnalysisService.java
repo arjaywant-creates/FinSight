@@ -1,5 +1,6 @@
 package com.finsight.backend.service;
 
+import java.util.Arrays;
 import com.opencsv.CSVReader;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +27,9 @@ public class AnalysisService {
         reader.readNext(); // skip header
 
         while ((row = reader.readNext()) != null) {
+
+            System.out.println("ROW = " + Arrays.toString(row));
+
             if (row.length < 4) continue;
 
             String desc = row[1].toLowerCase().trim();
