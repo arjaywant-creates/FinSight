@@ -1,5 +1,6 @@
 package com.finsight.backend.controller;
 
+import com.finsight.backend.service.AnalysisResult;
 import com.finsight.backend.service.AnalysisService;
 import com.finsight.backend.service.AIService;
 
@@ -33,7 +34,20 @@ public class UploadController {
         }
 
         // Analyze CSV
-        Map<String, Double> summary = analysisService.analyze(file);
+        AnalysisResult analysisResult = analysisService.analyze(file);
+
+        Map<String, Double> summary = analysisResult.getTotals();
+        int transactionCount = analysisResult.getTransactionCount();
+        String promptTemplate;
+
+        if (transactionCount < 5) {
+            promptTemplate = AIService.SHORT_PROMPT;
+        } else if (transactionCount < 20) {
+            promptTemplate = AIService.MEDIUM_PROMPT;
+        } else {
+            promptTemplate = AIService.DEEP_PROMPT;
+        }
+
 
         // Build highlight safely
         String highlight = "No spending data found.";
@@ -67,10 +81,28 @@ public class UploadController {
         String advice;
 
         try {
-            advice = aiService.getAdvice(summary.toString());
+
+            String prompt;
+
+            if (transactionCount < 5) {
+                prompt = AIService.SHORT_PROMPT;
+            } else if (transactionCount < 20) {
+                prompt = AIService.MEDIUM_PROMPT;
+            } else {
+                prompt = AIService.DEEP_PROMPT;
+            }
+
+            advice = aiService.getAdviceWithPrompt(
+                    summary.toString(),
+                    promptTemplate
+            );
+
+
         } catch (Exception e) {
+
             advice = "AI temporarily unavailable. Showing basic insights.";
         }
+
 
         // Build response
         Map<String, Object> result = new HashMap<>();

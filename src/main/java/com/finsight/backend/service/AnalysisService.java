@@ -12,13 +12,14 @@ import java.util.Map;
 @Service
 public class AnalysisService {
 
-    // Parses the uploaded CSV and returns category -> total spent
-    public Map<String, Double> analyze(MultipartFile file) throws Exception {
+    // Parses the uploaded CSV and returns totals + transaction count
+    public AnalysisResult analyze(MultipartFile file) throws Exception {
 
         CSVReader reader = new CSVReader(new InputStreamReader(file.getInputStream()));
         String[] row;
 
         Map<String, Double> totals = new HashMap<>();
+        int transactionCount = 0;
 
         if (file.isEmpty()) {
             throw new IllegalArgumentException("Empty file");
@@ -36,21 +37,27 @@ public class AnalysisService {
             String amtStr = row[2].trim();
 
             double amount;
+
             try {
                 amount = Double.parseDouble(amtStr);
             } catch (Exception e) {
                 continue;
             }
 
-            // only expenses (negative)
-            //if (amount >= 0) continue;
+            // Skip zero values
+            if (amount == 0) continue;
+
+            transactionCount++;
 
             String category = categorize(desc);
 
-            totals.put(category, totals.getOrDefault(category, 0.0) + Math.abs(amount));
+            totals.put(
+                    category,
+                    totals.getOrDefault(category, 0.0) + Math.abs(amount)
+            );
         }
 
-        return totals;
+        return new AnalysisResult(totals, transactionCount);
     }
 
     private String categorize(String d) {
