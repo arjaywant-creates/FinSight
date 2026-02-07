@@ -23,6 +23,7 @@ public class UploadController {
     @PostMapping("/upload")
     public Map<String, Object> upload(@RequestParam("file") MultipartFile file) throws Exception {
 
+        // Basic validation
         if (file.isEmpty()) {
             throw new RuntimeException("Empty file");
         }
@@ -31,30 +32,38 @@ public class UploadController {
             throw new RuntimeException("Not a CSV");
         }
 
+        // Analyze CSV
         Map<String, Double> summary = analysisService.analyze(file);
-        // Calculate total spending
-        double total = summary.values()
-                .stream()
-                .mapToDouble(Double::doubleValue)
-                .sum();
 
-        // Find biggest category
-        String maxCategory = summary.entrySet()
-                .stream()
-                .max(Map.Entry.comparingByValue())
-                .get()
-                .getKey();
+        // Build highlight safely
+        String highlight = "No spending data found.";
 
-// Calculate percentage
-        double percent =
-                (summary.get(maxCategory) / total) * 100;
+        if (!summary.isEmpty()) {
 
-// Build highlight message
-        String highlight =
-                maxCategory + " is " + Math.round(percent)
-                        + "% of your total spending";
+            double total = summary.values()
+                    .stream()
+                    .mapToDouble(Double::doubleValue)
+                    .sum();
 
+            Map.Entry<String, Double> maxEntry =
+                    summary.entrySet()
+                            .stream()
+                            .max(Map.Entry.comparingByValue())
+                            .orElse(null);
 
+            if (maxEntry != null && total > 0) {
+
+                double percent =
+                        (maxEntry.getValue() / total) * 100;
+
+                highlight =
+                        maxEntry.getKey() + " is "
+                                + Math.round(percent)
+                                + "% of your total spending";
+            }
+        }
+
+        // Get AI advice
         String advice;
 
         try {
@@ -63,13 +72,12 @@ public class UploadController {
             advice = "AI temporarily unavailable. Showing basic insights.";
         }
 
+        // Build response
         Map<String, Object> result = new HashMap<>();
         result.put("summary", summary);
-        result.put("advice", advice);
         result.put("highlight", highlight);
+        result.put("advice", advice);
 
         return result;
     }
 }
-
-
