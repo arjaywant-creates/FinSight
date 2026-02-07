@@ -32,8 +32,8 @@ public class AnalysisService {
 
             if (row.length < 4) continue;
 
-            String desc = row[1].toLowerCase().trim();
-            String amtStr = row[3].trim();
+            String desc = row[3].toLowerCase().trim();
+            String amtStr = row[2].trim();
 
             double amount;
             try {
@@ -43,7 +43,7 @@ public class AnalysisService {
             }
 
             // only expenses (negative)
-            if (amount >= 0) continue;
+            //if (amount >= 0) continue;
 
             String category = categorize(desc);
 
