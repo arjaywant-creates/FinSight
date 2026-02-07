@@ -1,0 +1,8 @@
+Date,Description,Amount
+2024-06-01,Parentheses negative,(123.45)
+2024-06-02,Currency symbol,$1,234.56
+2024-06-03,Decimal comma,1.234,56
+2024-06-04,Scientific notation,1.2e3
+2024-06-05,Dash em dash,—
+2024-06-06,NaN,NaN
+2024-06-07,Infinity,inf
