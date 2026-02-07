@@ -29,7 +29,7 @@ public class AnalysisService {
             if (row.length < 3) continue;
 
             String desc = row[1].toLowerCase().trim();
-            String amtStr = row[2].trim();
+            String amtStr = row[3].trim();
 
             double amount;
             try {
