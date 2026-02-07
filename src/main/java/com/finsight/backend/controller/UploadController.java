@@ -21,24 +21,55 @@ public class UploadController {
     private AIService aiService;
 
     @PostMapping("/upload")
-    public Map<String, Object> upload(
-            @RequestParam("file") MultipartFile file
-    ) throws Exception {
+    public Map<String, Object> upload(@RequestParam("file") MultipartFile file) throws Exception {
 
-        // 1. Analyze CSV
-        Map<String, Double> summary =
-                analysisService.analyze(file);
+        if (file.isEmpty()) {
+            throw new RuntimeException("Empty file");
+        }
 
-        // 2. Get AI advice
-        String advice =
-                aiService.getAdvice(summary.toString());
+        if (!file.getOriginalFilename().endsWith(".csv")) {
+            throw new RuntimeException("Not a CSV");
+        }
 
-        // 3. Build response
-        Map<String, Object> response = new HashMap<>();
+        Map<String, Double> summary = analysisService.analyze(file);
+        // Calculate total spending
+        double total = summary.values()
+                .stream()
+                .mapToDouble(Double::doubleValue)
+                .sum();
 
-        response.put("summary", summary);
-        response.put("advice", advice);
+        // Find biggest category
+        String maxCategory = summary.entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .get()
+                .getKey();
 
-        return response;
+// Calculate percentage
+        double percent =
+                (summary.get(maxCategory) / total) * 100;
+
+// Build highlight message
+        String highlight =
+                maxCategory + " is " + Math.round(percent)
+                        + "% of your total spending";
+
+
+        String advice;
+
+        try {
+            advice = aiService.getAdvice(summary.toString());
+        } catch (Exception e) {
+            advice = "AI temporarily unavailable. Showing basic insights.";
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("summary", summary);
+        result.put("advice", advice);
+        result.put("highlight", highlight);
+
+        return result;
     }
 }
+
+
