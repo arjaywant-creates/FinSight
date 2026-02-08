@@ -32,7 +32,7 @@ Frontend GitHub URL: [https://github.com/alamshafil/uga-hackathon](https://githu
 - OpenRouter API for LLM/AI capabilities (OpenAI GPT-4o Mini)
 
 # Problems that our team ran into and how we overcame them
-One of our biggest challenges was connecting the backend to the frontend, as this was our first full-stack project. We encountered issues with data formatting, API communication, and prompt diversity while handling edge cases. Like refining a magic trick, integrating the AI service and managing inconsistent inputs required repeated testing and adjustment. Through debugging and teamwork, we learned how to turn these obstacles into a stable and reliable system. In detail, we used print statement to debug each part of code.
+One of our biggest challenges was connecting the backend to the frontend, as this was our first full-stack project. We encountered issues with data formatting, API communication, and prompt diversity while handling edge cases. Like refining a magic trick, integrating the AI service and managing inconsistent inputs required repeated testing and adjustment. Through debugging and teamwork, we learned how to turn these obstacles into a stable and reliable system.
 
 # How to Run the App
 1. Clone the repository:
