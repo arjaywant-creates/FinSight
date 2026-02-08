@@ -1,10 +1,19 @@
 # FinSight App
 
-This app is a magical AI-powered tool designed to help you analyze and visualize your financial data effortlessly.
+Created by Atharva Jaywant, Landan Farmer, and Shafil Alam
+
+FinSight acts like a personal assistant for transforming unorganized, raw spending data into meaningful insights and visible trends. It automatically categorizes transactions, highlights major spending patterns, and uses AI to generate personalized advice.
 
 Demo link: [https://finsight-ai-app.vercel.app](https://finsight-ai-app.vercel.app)
 
 Frontend GitHub URL: [https://github.com/alamshafil/uga-hackathon](https://github.com/alamshafil/uga-hackathon)
+
+# Tools utilized
+- IntelliJ IDEA (for Java coding)
+- Git
+- GitHub
+- VSCode (for JS/TS coding)
+- REST APIs, JSON, Environmnet Variables, CORS Configuration
 
 # Technologies Used
 ## Frontend:
@@ -18,7 +27,12 @@ Frontend GitHub URL: [https://github.com/alamshafil/uga-hackathon](https://githu
 ## Backend:
 - PostgreSQL for database management
 - Java Spring Boot for the backend API
-- OpenRouter for LLM/AI capabilities
+- Maven for Java Project
+- OkHttp, OpenCSV for Java
+- OpenRouter API for LLM/AI capabilities (OpenAI GPT-4o Mini)
+
+# Problems that our team ran into and how we overcame them
+One of our biggest challenges was connecting the backend to the frontend, as this was our first full-stack project. We encountered issues with data formatting, API communication, and prompt diversity while handling edge cases. Like refining a magic trick, integrating the AI service and managing inconsistent inputs required repeated testing and adjustment. Through debugging and teamwork, we learned how to turn these obstacles into a stable and reliable system. In detail, we used print statement to debug each part of code.
 
 # How to Run the App
 1. Clone the repository:
