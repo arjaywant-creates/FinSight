@@ -4,8 +4,6 @@ Created by Atharva Jaywant, Landan Farmer, and Shafil Alam
 
 FinSight acts like a personal assistant for transforming unorganized, raw spending data into meaningful insights and visible trends. It automatically categorizes transactions, highlights major spending patterns, and uses AI to generate personalized advice.
 
-Demo link: [https://finsight-ai-app.vercel.app](https://finsight-ai-app.vercel.app)
-
 Frontend GitHub URL: [https://github.com/alamshafil/uga-hackathon](https://github.com/alamshafil/uga-hackathon)
 
 # Tools utilized
